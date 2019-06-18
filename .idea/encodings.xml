@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/.settings" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/BuildTrafficLight.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/CarMoving.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/CarsMaker.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/Controller.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/Echad.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/Event64.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/MyActionListener.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/Ramzor.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/ShloshaAvot.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/ShneyLuchot.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/Timer.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/TrafficLightFrame.java" charset="windows-1255" />
+    <file url="file://$PROJECT_DIR$/src/LightTraffic/TrafficLightPanel.java" charset="windows-1255" />
+    <file url="PROJECT" charset="windows-1255" />
+  </component>
+</project>
