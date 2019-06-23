@@ -1,17 +1,16 @@
 package Client;
 
-import LightTraffic.Event64;
-
 import java.io.*;
 import java.net.*;
+
+import LightTraffic.Event64;
 
 /**
  * It represent a client.
  *
  * @author Arie and Gad.
  */
-public class Client extends Thread
-{
+public class Client extends Thread {
     private String SERVER_HOST = "Localhost";
     private int DEFAULT_PORT = 50000;
     private Socket clientSocket = null;

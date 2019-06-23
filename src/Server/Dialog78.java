@@ -17,14 +17,14 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
 {
 
     Socket client;
-    Server78 myServer;
+    Server myServer;
     BufferedReader bufferSocketIn;
     PrintWriter bufferSocketOut;
     DialogWin78 myOutput;
     public List<Socket> Sockets;
 
 
-    public Dialog78(Socket clientSocket, Server78 myServer)
+    public Dialog78(Socket clientSocket, Server myServer)
     {
         client = clientSocket;
         this.myServer = myServer;
