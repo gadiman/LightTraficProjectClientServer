@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -24,11 +25,13 @@ public class serverGUI extends JFrame {
     private JButton Phase2_ToAllButton;;
     private JButton Phase3_ToAllButton;
     private JButton getControlButton;
+    private JButton AutoMode;
     private JLabel CrossSectionLabel;
     private List <Dialog78> dialogsClients;
     private Boolean [] isTokenControl ;
     JFrame frame ;
     Boolean isAlive;
+
 
     public serverGUI(){
         this.dialogsClients = new ArrayList<Dialog78>();
@@ -42,11 +45,14 @@ public class serverGUI extends JFrame {
         Phase2_ToAllButton = new JButton("All To Phase 2");
         Phase3_ToAllButton = new JButton("All To Phase 3");
         getControlButton = new JButton("Take Control");
+        AutoMode = new JButton("Leave Control");
+        AutoMode.setEnabled(false);
         CrossSectionLabel = new JLabel("Cross Section:");
         isAlive = true;
         frame =  new JFrame("Traffic-Light ControllerTrafficLight ");
-        init();
         frame.setVisible(true);
+        init();
+
 
     }
 
@@ -71,6 +77,7 @@ public class serverGUI extends JFrame {
         Phase2Button.setBounds(30,120,140,30);
         Phase3Button.setBounds(30,170,140,30);
         getControlButton.setBounds(110,230, 120, 30);
+        AutoMode.setBounds(110,270, 120, 30);
 
 
         frame.add(CrossSectionLabel);
@@ -82,11 +89,13 @@ public class serverGUI extends JFrame {
         frame.add(Phase2_ToAllButton);
         frame.add(Phase3_ToAllButton);
         frame.add(getControlButton);
+        frame.add(AutoMode);
 
         selectCrossSection.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("comboBox open");
+                buttonsEnable();
             }
         });
 
@@ -146,10 +155,19 @@ public class serverGUI extends JFrame {
             }
         });
 
+        AutoMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Leave control button pressed");
+                leaveControlButtonPresed();
+            }
+        });
 
 
 
     }
+
+
 
     private void moveToPhase3ButtonPresed() {
         System.out.println(this.selectCrossSection.getSelectedIndex());
@@ -173,7 +191,7 @@ public class serverGUI extends JFrame {
     private void allToPhase1Buttonpresed() {
         for(int i=0; i<dialogsClients.size(); i++){
             if(i<=2 && isTokenControl[i]){
-                dialogsClients.get(this.selectCrossSection.getSelectedIndex()).bufferSocketOut.println("evPhase1");
+                dialogsClients.get(i).bufferSocketOut.println("evPhase1");
             }
         }
     }
@@ -181,24 +199,37 @@ public class serverGUI extends JFrame {
     private void allToPhase2Buttonpresed() {
         for(int i=0; i<dialogsClients.size(); i++){
             if(i<=2 && isTokenControl[i]){
-                dialogsClients.get(this.selectCrossSection.getSelectedIndex()).bufferSocketOut.println("evPhase2");
+                dialogsClients.get(i).bufferSocketOut.println("evPhase2");
             }
         }
+
     }
 
     private void allToPhase3Buttonpresed() {
         for(int i=0; i<dialogsClients.size(); i++){
             if(i<=2 && isTokenControl[i]){
-                dialogsClients.get(this.selectCrossSection.getSelectedIndex()).bufferSocketOut.println("evPhase3");
+                dialogsClients.get(i).bufferSocketOut.println("evPhase3");
             }
         }
     }
 
     private void tokenControlButtonPresed() {
-        if(this.selectCrossSection.getSelectedIndex() != -1)
+        if(this.selectCrossSection.getSelectedIndex() != -1) {
             isTokenControl[this.selectCrossSection.getSelectedIndex()] = true;
+            getControlButton.setEnabled(false);
+            AutoMode.setEnabled(true);
+            dialogsClients.get(this.selectCrossSection.getSelectedIndex()).bufferSocketOut.println("evGetControl");
+        }
 
-        System.out.println(this.selectCrossSection.getSelectedIndex());
+    }
+
+    private void leaveControlButtonPresed() {
+        if(this.selectCrossSection.getSelectedIndex() != -1) {
+            isTokenControl[this.selectCrossSection.getSelectedIndex()] = false;
+            getControlButton.setEnabled(true);
+            AutoMode.setEnabled(false);
+            dialogsClients.get(this.selectCrossSection.getSelectedIndex()).bufferSocketOut.println("evLeaveControl");
+        }
     }
 
 
@@ -212,6 +243,18 @@ public class serverGUI extends JFrame {
         dialogsClients.add(newDialog);
         selectCrossSection.addItem(newDialog.getName());
         ((JLabel)selectCrossSection.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+
+    }
+
+    private void buttonsEnable() {
+        if(isTokenControl[this.selectCrossSection.getSelectedIndex()]){
+            getControlButton.setEnabled(false);
+            AutoMode.setEnabled(true);
+        }
+        else{
+            getControlButton.setEnabled(true);
+            AutoMode.setEnabled(false);
+        }
 
     }
 

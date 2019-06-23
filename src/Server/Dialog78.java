@@ -49,7 +49,7 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
             System.err.println("server:Exception when opening sockets: " + e);
             return;
         }
-        myOutput = new DialogWin78("Dialog Win for: " + client.toString(), this);
+       // myOutput = new DialogWin78("Dialog Win for: " + client.toString(), this);
         start();
     }
 
@@ -64,9 +64,12 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
                 line = bufferSocketIn.readLine();
                 if (line == null)
                     break;
-                if (line.equals("end"))
+                else if (line.equals("end"))
                     break;
-                myOutput.printOther(line);
+                else{
+                    yield();
+                }
+                //myOutput.printOther(line);
             }
         } catch (IOException e)
         {
@@ -80,8 +83,8 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
             }
         }
 
-        myOutput.printMe("end of  dialog ");
-        myOutput.send.setText("Close");
+        //myOutput.printMe("end of  dialog ");
+        //myOutput.send.setText("Close");
 
     }
 

@@ -1,17 +1,40 @@
 package LightTraffic;
 
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 /**
  * It represent a main function for manage the traffic system.
  * @author Arie and Gad.
  */
-public class BuildTrafficLight
+public class BuildTrafficLight extends JFrame
 {
 	Event64 evControlClient;
+	String name;
+	private JButton okButton;
+	private JLabel nameLabel;
+	JFrame frame ;
+
+
 	public BuildTrafficLight(Event64 evControl)
 	{
+		/*JTextField field = new JTextField(10);
+		field.setBounds(20,50,200,40);
+		frame = new JFrame("chose name");
+		frame.setLayout(null);
+		frame.setSize(400,200);
+		okButton = new JButton("ok");
+		nameLabel = new JLabel("Name of crossroad:");
+		okButton.setBounds(250,50,50,40);
+		nameLabel.setBounds(20,10,200,20);
+		frame.add(okButton);
+		frame.add(nameLabel);
+		frame.add(field);
+		frame.setVisible(true);*/
+
+
+
 		evControlClient = evControl;
+		name = (String) evControlClient.waitEvent();
 		final int numOfLights = 4 + 12 + 1;
 		Ramzor[] ramzorim = new Ramzor[numOfLights];
 
@@ -70,7 +93,7 @@ public class BuildTrafficLight
 		butt[12].addActionListener(myListener);
 		trafficLightFrame.myPanel.add(butt[12]);
 
-		Controller controller = new Controller(ramzorim, butt, trafficLightFrame, myListener,evControlClient);
+		Controller controller = new Controller(ramzorim, butt, trafficLightFrame, myListener,evControlClient,name);
 		controller.startTraffic();
 
 	}

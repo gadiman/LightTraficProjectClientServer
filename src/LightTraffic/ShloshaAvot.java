@@ -12,6 +12,7 @@ public class ShloshaAvot extends Thread {
     private Ramzor ramzor;
     private JPanel panel;
     private Event64 evTimer1, evTimer2, evTimer3, evShabat, evRestOfWeek, evLightRedAck, evStartWorking;
+    private Event64 evNumOfCrossRoad, evNumOfCar;
 
     enum StateMode {REST_OF_WEEK, SHABAT, BLINK_ORANGE}
     enum ColorLight {RED, GREEN, ORANGE}
@@ -23,7 +24,9 @@ public class ShloshaAvot extends Thread {
     private boolean stop = true;
 
     public ShloshaAvot(Ramzor ramzor, JPanel panel, int key, Event64 evShabat, Event64 evRestOfWeek,
-                       Event64 evLightRedAck, Event64 evStartWorking) {
+                       Event64 evLightRedAck, Event64 evStartWorking,Event64 evNumOfCrossRoad,
+                       Event64 evNumOfCar, String nameOfCrossRoad,Event64 evNextLightTraffic
+            ,Event64 evNextCrossRoad) {
         this.ramzor = ramzor;
         this.panel = panel;
         this.restOfWeekMode = true;
@@ -39,8 +42,9 @@ public class ShloshaAvot extends Thread {
         this.evRestOfWeek = evRestOfWeek;
         this.evLightRedAck = evLightRedAck;
         this.evStartWorking = evStartWorking;
-
-        new CarsMaker(panel, this, key);
+        this.evNumOfCrossRoad = evNumOfCrossRoad;
+        this.evNumOfCar = evNumOfCar;
+        new CarsMaker(panel, this, key ,nameOfCrossRoad, evNumOfCar,evNextLightTraffic,evNextCrossRoad);
         start();
     }
 

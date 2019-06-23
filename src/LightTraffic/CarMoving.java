@@ -12,13 +12,16 @@ import javax.swing.JPanel;
 public class CarMoving extends Thread {
     private JLabel myLabel;
     private JPanel myPanel;
+    private JLabel myNumLabel;
     private ShloshaAvot myRamzor;
     private int key;
     private int x, dx;
     private int y, dy;
     private ImageIcon imageIcon;
+    private Integer num;
 
-    public CarMoving(JPanel myPanel, ShloshaAvot myRamzor, int key) {
+    public CarMoving(JPanel myPanel, ShloshaAvot myRamzor, int key,int num_) {
+        this.num = num_;
         this.myPanel = myPanel;
         this.myRamzor = myRamzor;
         this.key = key;
@@ -27,6 +30,8 @@ public class CarMoving extends Thread {
         this.myLabel = new JLabel(this.imageIcon);
         this.myLabel.setOpaque(false);
         this.myPanel.add(myLabel);
+        this.myNumLabel=new JLabel(Integer.toString(num));
+        myPanel.add(myNumLabel);
         setDaemon(true);
         start();
     }
@@ -88,12 +93,13 @@ public class CarMoving extends Thread {
 
     public void run() {
         myLabel.setBounds(x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
-
+        myNumLabel.setBounds(x+15, y-20, 30,20);
         while (!finish()) {
             if (!myRamzor.isStop() || !toStop()) {
                 x += dx;
                 y += dy;
                 myLabel.setBounds(x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+                myNumLabel.setBounds(x+15, y-20, 30,20);
             }
             try {
                 Thread.sleep(75);
@@ -118,6 +124,7 @@ public class CarMoving extends Thread {
                 myLabel.removeAll();
                 myLabel.setIcon(imageIcon);
                 myLabel.setBounds(x, y, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+                myNumLabel.setBounds(x+15, y-20, 30,20);
                 return false;
             }
             case 3:

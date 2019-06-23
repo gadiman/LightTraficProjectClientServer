@@ -21,14 +21,13 @@ public class Client78 extends Thread
     BufferedReader bufferSocketIn;
     PrintWriter bufferSocketOut;
     BufferedReader keyBoard;
-    ClientWin78 myOutput;
+    //ClientWin78 myOutput;
     String line;
     Event64 evConnectClient;
 
 
     public Client78(Event64 evClientConn) {
         this.evConnectClient = evClientConn;
-
         start();
     }
 
@@ -48,26 +47,27 @@ public class Client78 extends Thread
                     new OutputStreamWriter(
                     clientSocket.getOutputStream())), true);
 
+
+
 //  	   Init streams to read text from the keyboard
 //	   keyBoard = new BufferedReader(
 //	   new InputStreamReader(System.in));
 
 
-            myOutput = new ClientWin78("Client  ", this);
+           // myOutput = new ClientWin78("Client  ", this);
 
             // notice about the connection
-            myOutput.printMe("Connected to " + clientSocket.getInetAddress() +
-                    ":" + clientSocket.getPort());
+          //  myOutput.printMe("Connected to " + clientSocket.getInetAddress() +
+             //       ":" + clientSocket.getPort());
             while (true)
             {
                 line = bufferSocketIn.readLine(); // reads a line from the server
                 if (line == null)  // connection is closed ?  exit
                 {
-                    myOutput.printMe("Connection closed by the Server.");
+                    //myOutput.printMe("Connection closed by the Server.");
                     break;
                 }
-                myOutput.printOther(line); // shows it on the screen
-
+               // myOutput.printOther(line); // shows it on the screen
                 if (line.equals("end"))
                 {
                     break;
@@ -76,7 +76,7 @@ public class Client78 extends Thread
             }
         } catch (IOException e)
         {
-            myOutput.printMe(e.toString());
+            //myOutput.printMe(e.toString());
             System.err.println(e);
         } finally
         {
@@ -90,8 +90,8 @@ public class Client78 extends Thread
             {
             }
         }
-        myOutput.printMe("end of client ");
-        myOutput.send.setText("Close");
+        //myOutput.printMe("end of client ");
+       // myOutput.send.setText("Close");
 
         System.out.println("end of client ");
     }
@@ -101,6 +101,5 @@ public class Client78 extends Thread
         Event64 evControlClient = new Event64();
         Client78 client = new Client78(evControlClient);
         new LightTraffic.BuildTrafficLight(evControlClient);
-
     }
 }

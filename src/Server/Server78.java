@@ -5,6 +5,7 @@ package Server;
 //Levian Yehonatan
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 class Server78 extends Thread 	   //the parallel server
 {
@@ -13,6 +14,10 @@ class Server78 extends Thread 	   //the parallel server
     ServerSocket listenSocket;
     Socket clientSockets;
     serverGUI serverGui;
+    Dialog78 dialog78;
+    ArrayList<Dialog78> clients;
+    String line;
+    static Integer i;
 
 
     public Server78()   // constructor of a TCP server
@@ -29,7 +34,9 @@ class Server78 extends Thread 	   //the parallel server
 
         System.out.println("Server starts on port " + DEFAULT_PORT);
         serverGui = new serverGUI();
+        clients = new ArrayList<>();
         start();
+        i = new Integer(0);
     }
 
     public void run()
@@ -39,7 +46,12 @@ class Server78 extends Thread 	   //the parallel server
             while (true)
             {
                 clientSockets = listenSocket.accept();
-                serverGui.addDialog( new Dialog78(clientSockets, this));
+                dialog78 = new Dialog78(clientSockets, this);
+                clients.add(dialog78);
+                serverGui.addDialog(dialog78);
+                i++;
+                System.out.println(i);
+                dialog78.bufferSocketOut.println(i.toString());
             }
 
         } catch (IOException e)
