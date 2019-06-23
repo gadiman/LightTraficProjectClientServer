@@ -17,7 +17,7 @@ public class Controller {
     private Event64[] evAckRedLight, evStartWorking, evShabatMode, evRestOfWeekMode; // Those for Light Traffics.
     private Event64 evControlClient;
     private Event64 evNumOfCrossRoad, evNumOfCar;
-    Event64 evNextLightTraffic ,evNextCrossRoad;
+    Event64 evNextLightTraffic ,evNextCrossRoad, evSendCar;
 
     private String nameOfCrossRoad;
     enum StateMode {REST_OF_WEEK, SHABAT, ACK_WAITING}
@@ -62,6 +62,7 @@ public class Controller {
         this.evNumOfCar = new Event64();
         this.evNextLightTraffic = new Event64();
         this.evNextCrossRoad = new Event64();
+        this.evSendCar = new Event64();
 
 
         this.myActionListener.init(evButtonPressed, evShabatButtonPressed, evShabatButtonReleased, buttons);
@@ -89,7 +90,7 @@ public class Controller {
                                     for (int i = 0; i < 4; i++) {
                                         new ShloshaAvot(ramzorim[i], trafficLightFrame.myPanel, i + 1, evShabatMode[i], evRestOfWeekMode[i],
                                                 evAckRedLight[i], evStartWorking[i],evNumOfCrossRoad, evNumOfCar,
-                                                nameOfCrossRoad, evNextLightTraffic,evNextCrossRoad);
+                                                nameOfCrossRoad, evNextLightTraffic,evNextCrossRoad,evSendCar);
                                     }
 
                                     // Create all the walker's traffic light:
@@ -321,6 +322,17 @@ public class Controller {
      */
     private void ackWaitingFromPhase_A() {
 
+    /*  while (!evAckRedLight[0].arrivedEvent()){
+          if(evSendCar.arrivedEvent())
+            evControlClient.sendEvent((Integer)evSendCar.waitEvent());
+          if(evNextLightTraffic.arrivedEvent())
+            evControlClient.sendEvent((Integer)evNextLightTraffic.waitEvent());
+          if(evNextCrossRoad.arrivedEvent())
+            evControlClient.sendEvent((Integer)evNextCrossRoad.waitEvent());
+       }
+
+     */
+
         evAckRedLight[0].waitEvent();
         evAckRedLight[6].waitEvent();
         evAckRedLight[7].waitEvent();
@@ -328,8 +340,7 @@ public class Controller {
         evAckRedLight[10].waitEvent();
         evAckRedLight[12].waitEvent();
         evAckRedLight[13].waitEvent();
-        evControlClient.sendEvent((String)evNextCrossRoad.waitEvent());
-        evControlClient.sendEvent((Integer)evNextLightTraffic.waitEvent());
+
 
         System.out.println("A group");
 

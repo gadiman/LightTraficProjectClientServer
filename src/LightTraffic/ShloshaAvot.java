@@ -26,7 +26,7 @@ public class ShloshaAvot extends Thread {
     public ShloshaAvot(Ramzor ramzor, JPanel panel, int key, Event64 evShabat, Event64 evRestOfWeek,
                        Event64 evLightRedAck, Event64 evStartWorking,Event64 evNumOfCrossRoad,
                        Event64 evNumOfCar, String nameOfCrossRoad,Event64 evNextLightTraffic
-            ,Event64 evNextCrossRoad) {
+            ,Event64 evNextCrossRoad, Event64 evSendCar) {
         this.ramzor = ramzor;
         this.panel = panel;
         this.restOfWeekMode = true;
@@ -44,7 +44,7 @@ public class ShloshaAvot extends Thread {
         this.evStartWorking = evStartWorking;
         this.evNumOfCrossRoad = evNumOfCrossRoad;
         this.evNumOfCar = evNumOfCar;
-        new CarsMaker(panel, this, key ,nameOfCrossRoad, evNumOfCar,evNextLightTraffic,evNextCrossRoad);
+        new CarsMaker(panel, this, key ,nameOfCrossRoad, evNumOfCar,evNextLightTraffic,evNextCrossRoad,evSendCar);
         start();
     }
 
