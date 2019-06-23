@@ -37,9 +37,9 @@ public class ClientWin78 extends JFrame implements ActionListener,KeyListener
     public JButton send;
     private String myName = "Your";
     private String otherName = "Server (Dialog)";
-    private Client78 myClient;
+    private Client myClient;
 
-    public ClientWin78(String header, Client78 myClient)
+    public ClientWin78(String header, Client myClient)
     {
         super(header);
         this.myClient = myClient;
