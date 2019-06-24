@@ -44,9 +44,11 @@ class Server extends Thread  {
                 clientSockets = listenSocket.accept();
                 dialog78 = new Dialog78(clientSockets, this);
                 clients.add(dialog78);
-                serverGui.addDialog(dialog78);
-                System.out.println(++i);
-                dialog78.bufferSocketOut.println("_"+i.toString());
+                ++i;
+                if(i <=3){
+                    serverGui.addDialog(dialog78,i);
+                    dialog78.bufferSocketOut.println("_"+i.toString());
+                }
             }
         } catch (IOException e) {
             System.out.println("Problem listening server socket.");

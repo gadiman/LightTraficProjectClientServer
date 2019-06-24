@@ -42,7 +42,7 @@ public class Client extends Thread {
 
             bufferSocketOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())), true);
 
-//  	   Init streams to read text from the keyboard
+//     Init streams to read text from the keyboard
 //	   keyBoard = new BufferedReader(
 //	   new InputStreamReader(System.in));
 
@@ -63,6 +63,10 @@ public class Client extends Thread {
                 else if (line.equals("end"))
                 {
                     break;
+                }
+                else if(line.equals("evPhase1")|| line.equals("evPhase2")|| line.equals("evPhase3")||
+                        line.equals("evGetControl")||line.equals("evLeaveControl")){
+                    evConnectClient.sendEvent(line);
                 }
                 else {
                     String[] split = line.split("\\s+");

@@ -1,11 +1,13 @@
 package Server;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.Socket;
@@ -52,28 +54,9 @@ public class serverGUI extends JFrame {
         frame =  new JFrame("Traffic-Light ControllerTrafficLight ");
         frame.setVisible(true);
         init();
-        //startCreatCars();
 
+        frame.setResizable(false);
     }
-
-    /*private void startCreatCars() {
-        while (true){
-            for(int i=0; i<dialogsClients.size(); i++){
-                switch (i){
-                    case 1:
-
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-
-            }
-        }
-    }
-
-     */
 
 
     public void init(){
@@ -81,12 +64,6 @@ public class serverGUI extends JFrame {
         frame.setSize(400,400);
 
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                thisWindowClosing(e);
-            }
-        });
         selectCrossSection.setBounds(140,30,200,30);
         CrossSectionLabel.setBounds(30,30,140,30);
         Phase1_ToAllButton.setBounds(200,70,140,30);
@@ -109,6 +86,8 @@ public class serverGUI extends JFrame {
         frame.add(Phase3_ToAllButton);
         frame.add(getControlButton);
         frame.add(AutoMode);
+
+
 
         selectCrossSection.addActionListener(new ActionListener() {
             @Override
@@ -252,15 +231,11 @@ public class serverGUI extends JFrame {
     }
 
 
-    private void thisWindowClosing(WindowEvent e)
-    {
-        isAlive = false;
-    }
 
-    public void addDialog(Dialog78 newDialog){
+    public void addDialog(Dialog78 newDialog ,Integer i){
 
         dialogsClients.add(newDialog);
-        selectCrossSection.addItem(newDialog.getName());
+        selectCrossSection.addItem("Crossroad "+i);
         ((JLabel)selectCrossSection.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 
     }
