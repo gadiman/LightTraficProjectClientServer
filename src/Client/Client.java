@@ -73,6 +73,7 @@ public class Client extends Thread {
                     lightTrafficNum = split[0];
                     carNum = split[1];
 
+
                     switch (lightTrafficNum) {
                         case "1":
                             lightTrafficQueue.LT1.add(Integer.parseInt(carNum));

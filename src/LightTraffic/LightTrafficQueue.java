@@ -14,4 +14,5 @@ public class LightTrafficQueue {
         LT3 = new LinkedList<>();
     }
 
+
 }

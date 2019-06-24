@@ -118,6 +118,7 @@ public class CarMoving extends Thread {
             myPanel.repaint();
         }
         buffer.println(num+" "+nextLightTraffic+" "+nextCrossRoad+" "+name);
+
     }
 
     private boolean finish() {

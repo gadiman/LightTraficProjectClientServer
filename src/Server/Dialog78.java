@@ -24,7 +24,7 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
     public List<Socket> Sockets;
     int i =0;
 
-    String name,carNum,LTnum,CRnum;;
+    String name,carNum,LTnum,CRnum;
 
 
 
