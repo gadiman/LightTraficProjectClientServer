@@ -22,6 +22,10 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
     PrintWriter bufferSocketOut;
     DialogWin78 myOutput;
     public List<Socket> Sockets;
+    int i =0;
+
+    String name,carNum,LTnum,CRnum;;
+
 
 
     public Dialog78(Socket clientSocket, Server myServer)
@@ -30,7 +34,7 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
         this.myServer = myServer;
         try
         {
-            // Init streams to read/write text in this socket
+            //Init streams to read/write text in this socket
             bufferSocketIn = new BufferedReader(
                     new InputStreamReader(
                             clientSocket.getInputStream()));
@@ -66,10 +70,15 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
                     break;
                 else if (line.equals("end"))
                     break;
-                else{
-                    yield();
-                }
-                //myOutput.printOther(line);
+
+                String[] split = line.split("\\s+");
+                carNum = split[0];
+                LTnum = split[1];
+                CRnum = split[2];
+                name = split[3];
+                myServer.sendCar(new DataTransfer(carNum,LTnum,CRnum,name));
+
+
             }
         } catch (IOException e)
         {
@@ -97,4 +106,7 @@ class Dialog78 extends Thread // parallel dialogs on the same socket
         {
         }
     }
+
+
+
 }

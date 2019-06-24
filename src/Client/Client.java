@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 
 import LightTraffic.Event64;
+import LightTraffic.LightTrafficQueue;
 
 /**
  * It represent a client.
@@ -15,14 +16,20 @@ public class Client extends Thread {
     private int DEFAULT_PORT = 50000;
     private Socket clientSocket = null;
     private BufferedReader bufferSocketIn;
-    private PrintWriter bufferSocketOut;
+    public static PrintWriter bufferSocketOut;
 //    BufferedReader keyBoard;
 //    ClientWin78 myOutput;
     private String line;
     private Event64 evConnectClient;
+    public static LightTrafficQueue lightTrafficQueue;
+    int i =0;
+    String carNum,lightTrafficNum;
+
+
 
     public Client(Event64 evClientConn) {
         this.evConnectClient = evClientConn;
+        lightTrafficQueue = new LightTrafficQueue();
         start();
     }
 
@@ -32,6 +39,7 @@ public class Client extends Thread {
             clientSocket = new Socket(SERVER_HOST, DEFAULT_PORT);
             // Init streams to read/write text in this socket:
             bufferSocketIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
             bufferSocketOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())), true);
 
 //  	   Init streams to read text from the keyboard
@@ -49,13 +57,35 @@ public class Client extends Thread {
                 if (line == null) { // Check if the connection is closed.
 //                    myOutput.printMe("Connection closed by the Server.");
                     break;
-                }
+                }else if(line.equals("_1") || line.equals("_2")|| line.equals("_3"))
+                    evConnectClient.sendEvent(line);
 //                myOutput.printOther(line); // shows it on the screen
-                if (line.equals("end"))
+                else if (line.equals("end"))
                 {
                     break;
                 }
-                evConnectClient.sendEvent(line);
+                else {
+                    String[] split = line.split("\\s+");
+                    lightTrafficNum = split[0];
+                    carNum = split[1];
+
+                    switch (lightTrafficNum) {
+                        case "1":
+                            lightTrafficQueue.LT1.add(Integer.parseInt(carNum));
+                            break;
+                        case "2":
+                            lightTrafficQueue.LT2.add(Integer.parseInt(carNum));
+                            break;
+                        case "3":
+                            lightTrafficQueue.LT3.add(Integer.parseInt(carNum));
+                            break;
+                    }
+                        System.out.println(lightTrafficNum + " " + carNum + "\n");
+
+                    }
+
+
+
             }
         } catch (IOException e) {
 //            myOutput.printMe(e.toString());
@@ -76,6 +106,6 @@ public class Client extends Thread {
     public static void main(String[] args) {
         Event64 evControlClient = new Event64();
         Client client = new Client(evControlClient);
-        new LightTraffic.BuildTrafficLight(evControlClient);
+        new LightTraffic.BuildTrafficLight(evControlClient, bufferSocketOut,lightTrafficQueue);
     }
 }

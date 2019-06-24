@@ -46,7 +46,7 @@ class Server extends Thread  {
                 clients.add(dialog78);
                 serverGui.addDialog(dialog78);
                 System.out.println(++i);
-                dialog78.bufferSocketOut.println(i.toString());
+                dialog78.bufferSocketOut.println("_"+i.toString());
             }
         } catch (IOException e) {
             System.out.println("Problem listening server socket.");
@@ -54,5 +54,27 @@ class Server extends Thread  {
         }
 
         System.out.println("End of the server.");
+    }
+
+    public void sendCar(DataTransfer dataTransfer){
+        System.out.println(dataTransfer.print());
+        switch (dataTransfer.crossroadNum){
+            case "-1":
+                return;
+            case "1":
+                clients.get(0).bufferSocketOut.println(dataTransfer.lightTrafficNum+" "+dataTransfer.carNum);
+                break;
+            case "2":
+                if(clients.size() >= 2) {
+                    clients.get(1).bufferSocketOut.println(dataTransfer.lightTrafficNum+" "+dataTransfer.carNum);
+                }
+                break;
+            case "3":
+                if(clients.size() >= 3) {
+                    clients.get(2).bufferSocketOut.println(dataTransfer.lightTrafficNum+" "+dataTransfer.carNum);
+
+                }
+                break;
+        }
     }
 }

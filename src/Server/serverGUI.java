@@ -52,9 +52,28 @@ public class serverGUI extends JFrame {
         frame =  new JFrame("Traffic-Light ControllerTrafficLight ");
         frame.setVisible(true);
         init();
-
+        //startCreatCars();
 
     }
+
+    /*private void startCreatCars() {
+        while (true){
+            for(int i=0; i<dialogsClients.size(); i++){
+                switch (i){
+                    case 1:
+
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+
+            }
+        }
+    }
+
+     */
 
 
     public void init(){

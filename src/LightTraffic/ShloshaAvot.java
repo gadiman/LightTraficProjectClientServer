@@ -1,6 +1,7 @@
 package LightTraffic;
 
 import java.awt.Color;
+import java.io.PrintWriter;
 
 import javax.swing.JPanel;
 
@@ -24,9 +25,8 @@ public class ShloshaAvot extends Thread {
     private boolean stop = true;
 
     public ShloshaAvot(Ramzor ramzor, JPanel panel, int key, Event64 evShabat, Event64 evRestOfWeek,
-                       Event64 evLightRedAck, Event64 evStartWorking,Event64 evNumOfCrossRoad,
-                       Event64 evNumOfCar, String nameOfCrossRoad,Event64 evNextLightTraffic
-            ,Event64 evNextCrossRoad, Event64 evSendCar) {
+                       Event64 evLightRedAck, Event64 evStartWorking, Event64 evNumOfCrossRoad,
+                       Event64 evNumOfCar, String nameOfCrossRoad, PrintWriter buffer,LightTrafficQueue lightTrafficQueue) {
         this.ramzor = ramzor;
         this.panel = panel;
         this.restOfWeekMode = true;
@@ -44,7 +44,7 @@ public class ShloshaAvot extends Thread {
         this.evStartWorking = evStartWorking;
         this.evNumOfCrossRoad = evNumOfCrossRoad;
         this.evNumOfCar = evNumOfCar;
-        new CarsMaker(panel, this, key ,nameOfCrossRoad, evNumOfCar,evNextLightTraffic,evNextCrossRoad,evSendCar);
+        new CarsMaker(panel, this, key ,nameOfCrossRoad,buffer,lightTrafficQueue);
         start();
     }
 

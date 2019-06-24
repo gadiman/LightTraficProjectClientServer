@@ -1,6 +1,7 @@
 package LightTraffic;
 
 import javax.swing.*;
+import java.io.PrintWriter;
 
 /**
  * It represent a main function for manage the traffic system.
@@ -15,7 +16,7 @@ public class BuildTrafficLight extends JFrame
 	JFrame frame ;
 
 
-	public BuildTrafficLight(Event64 evControl)
+	public BuildTrafficLight(Event64 evControl, PrintWriter buffer, LightTrafficQueue lightTrafficQueue)
 	{
 		/*JTextField field = new JTextField(10);
 		field.setBounds(20,50,200,40);
@@ -93,7 +94,7 @@ public class BuildTrafficLight extends JFrame
 		butt[12].addActionListener(myListener);
 		trafficLightFrame.myPanel.add(butt[12]);
 
-		Controller controller = new Controller(ramzorim, butt, trafficLightFrame, myListener,evControlClient,name);
+		Controller controller = new Controller(ramzorim, butt, trafficLightFrame, myListener,evControlClient,name,buffer,lightTrafficQueue);
 		controller.startTraffic();
 
 	}

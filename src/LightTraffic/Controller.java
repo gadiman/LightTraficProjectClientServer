@@ -2,6 +2,8 @@ package LightTraffic;
 
 import javax.swing.*;
 
+import java.io.PrintWriter;
+
 import static java.lang.Thread.sleep;
 
 public class Controller {
@@ -17,7 +19,9 @@ public class Controller {
     private Event64[] evAckRedLight, evStartWorking, evShabatMode, evRestOfWeekMode; // Those for Light Traffics.
     private Event64 evControlClient;
     private Event64 evNumOfCrossRoad, evNumOfCar;
-    Event64 evNextLightTraffic ,evNextCrossRoad, evSendCar;
+
+    public LightTrafficQueue lightTrafficQueue;
+
 
     private String nameOfCrossRoad;
     enum StateMode {REST_OF_WEEK, SHABAT, ACK_WAITING}
@@ -25,6 +29,7 @@ public class Controller {
     private StateMode stateMode; // For Other switch.
 
     enum Phase {START, PHASE_A, PHASE_B, PHASE_C, ACK_WAITING}
+    PrintWriter buffer;
 
     private Phase phase; // For Inner switch.
 
@@ -36,13 +41,15 @@ public class Controller {
     private JRadioButton button; // For Clear button selected.
 
     public Controller(Ramzor[] ramzorArray, JRadioButton[] buttonArray, TrafficLightFrame trafficLightFrame,
-                      MyActionListener myActionListener, Event64 evControl,String name) {
+                      MyActionListener myActionListener, Event64 evControl, String name,PrintWriter buffer,LightTrafficQueue lightTrafficQueue) {
+        this.buffer = buffer;
         this.nameOfCrossRoad = name;
         this.evControlClient = evControl;
         this.ramzorim = ramzorArray;
         this.buttons = buttonArray;
         this.trafficLightFrame = trafficLightFrame;
         this.myActionListener = myActionListener;
+        this.lightTrafficQueue = lightTrafficQueue;
 
         this.restOfWeekMode = true;
         this.clientServerMode = false;
@@ -60,9 +67,6 @@ public class Controller {
 
         this.evNumOfCrossRoad = new Event64();
         this.evNumOfCar = new Event64();
-        this.evNextLightTraffic = new Event64();
-        this.evNextCrossRoad = new Event64();
-        this.evSendCar = new Event64();
 
 
         this.myActionListener.init(evButtonPressed, evShabatButtonPressed, evShabatButtonReleased, buttons);
@@ -90,7 +94,7 @@ public class Controller {
                                     for (int i = 0; i < 4; i++) {
                                         new ShloshaAvot(ramzorim[i], trafficLightFrame.myPanel, i + 1, evShabatMode[i], evRestOfWeekMode[i],
                                                 evAckRedLight[i], evStartWorking[i],evNumOfCrossRoad, evNumOfCar,
-                                                nameOfCrossRoad, evNextLightTraffic,evNextCrossRoad,evSendCar);
+                                                nameOfCrossRoad,buffer,lightTrafficQueue);
                                     }
 
                                     // Create all the walker's traffic light:
@@ -322,17 +326,6 @@ public class Controller {
      */
     private void ackWaitingFromPhase_A() {
 
-    /*  while (!evAckRedLight[0].arrivedEvent()){
-          if(evSendCar.arrivedEvent())
-            evControlClient.sendEvent((Integer)evSendCar.waitEvent());
-          if(evNextLightTraffic.arrivedEvent())
-            evControlClient.sendEvent((Integer)evNextLightTraffic.waitEvent());
-          if(evNextCrossRoad.arrivedEvent())
-            evControlClient.sendEvent((Integer)evNextCrossRoad.waitEvent());
-       }
-
-     */
-
         evAckRedLight[0].waitEvent();
         evAckRedLight[6].waitEvent();
         evAckRedLight[7].waitEvent();
@@ -342,7 +335,7 @@ public class Controller {
         evAckRedLight[13].waitEvent();
 
 
-        System.out.println("A group");
+       // System.out.println("A group");
 
         phase = Phase.PHASE_B;
     }
@@ -360,7 +353,7 @@ public class Controller {
         evAckRedLight[10].waitEvent();
         evAckRedLight[12].waitEvent();
         evAckRedLight[13].waitEvent();
-        System.out.println("B group");
+       // System.out.println("B group");
 
         phase = Phase.PHASE_C;
     }
@@ -377,7 +370,7 @@ public class Controller {
         evAckRedLight[11].waitEvent();
         evAckRedLight[14].waitEvent();
         evAckRedLight[15].waitEvent();
-        System.out.println("C group");
+        //System.out.println("C group");
 
         phase = Phase.PHASE_A;
     }
@@ -421,9 +414,6 @@ public class Controller {
             case "evPhase3":
                 phase = Phase.PHASE_C;
                 break;
-
-
-
 
 
         }

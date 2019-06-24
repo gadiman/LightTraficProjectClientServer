@@ -3,6 +3,7 @@ package LightTraffic;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.io.PrintWriter;
 
 /**
  * It represent a car moving.
@@ -19,9 +20,17 @@ public class CarMoving extends Thread {
     private int y, dy;
     private ImageIcon imageIcon;
     private Integer num;
+    int nextLightTraffic;
+    int nextCrossRoad;
+    private PrintWriter buffer;
+    String name;
 
-    public CarMoving(JPanel myPanel, ShloshaAvot myRamzor, int key,int num_) {
+    public CarMoving(JPanel myPanel, ShloshaAvot myRamzor, int key,int num_,int nextLightTraffic,int nextCrossRoad, PrintWriter buffer ,String name) {
+        this.name = name;
+        this.buffer = buffer;
         this.num = num_;
+        this.nextCrossRoad = nextCrossRoad;
+        this.nextLightTraffic = nextLightTraffic;
         this.myPanel = myPanel;
         this.myRamzor = myRamzor;
         this.key = key;
@@ -108,6 +117,7 @@ public class CarMoving extends Thread {
             }
             myPanel.repaint();
         }
+        buffer.println(num+" "+nextLightTraffic+" "+nextCrossRoad+" "+name);
     }
 
     private boolean finish() {
@@ -192,4 +202,5 @@ public class CarMoving extends Thread {
         }
         return null;
     }
+
 }
